@@ -73,9 +73,9 @@ class ExamineThread(QRunnable):
         
     def run(self):
         preprocessing(self.axial_images, self.coronal_images, self.sagittal_images)
-        self.examine_result_abnormal = 0.2459#Model(key = 'abnormal').get_prediction()
-        self.examine_result_acl = 0.4569#Model(key = 'acl').get_prediction()
-        self.examine_result_men = 0.9564#Model(key = 'men').get_prediction()
+        self.examine_result_abnormal = Model(key = 'abnormal').get_prediction()
+        self.examine_result_acl = Model(key = 'acl').get_prediction()
+        self.examine_result_men = Model(key = 'men').get_prediction()
         
         self.get_data(self.examine_result_abnormal,
                       self.examine_result_acl,
