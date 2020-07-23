@@ -24,6 +24,7 @@ class preprocessing:
             i = i[1:-1]
             print(i)
             temp = cv.imread(i)
+            temp = denoise_image(temp)
             img = self.resize_image(temp)
             data = np.array(img, dtype='uint8')
             result.append(data[:,:,0])
@@ -37,3 +38,13 @@ class preprocessing:
         else:
             output = cv.resize(img, (pixles,pixles), interpolation=cv.INTER_LINEAR)
         return output
+
+    def denoise_image(self, image):
+        gray = cv.cvtColor(image,cv.COLOR_BGR2GRAY)
+        _,edge = cv.threshold(gray,30,255,cv.THRESH_BINARY)
+        contours,_ = cv.findContours(edge,cv.RETR_EXTERNAL,cv.CHAIN_APPROX_SIMPLE)
+        contours = sorted(contours,key=cv.contourArea,reverse=True)[0]
+        mask = np.zeros(image.shape[:2],np.uint8)
+        mask = cv.drawContours(mask,[contours],-1,(255),-1)
+        res = cv.bitwise_and(image,image,mask=mask)
+        return res
