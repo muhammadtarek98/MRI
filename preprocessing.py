@@ -24,7 +24,7 @@ class preprocessing:
             i = i[1:-1]
             print(i)
             temp = cv.imread(i)
-            temp = denoise_image(temp)
+            temp = self.denoise_image(temp)
             img = self.resize_image(temp)
             data = np.array(img, dtype='uint8')
             result.append(data[:,:,0])
