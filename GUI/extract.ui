@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Extract Data</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../resources/icons8-archive-64.png</normaloff>../resources/icons8-archive-64.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">QPushButton
 {

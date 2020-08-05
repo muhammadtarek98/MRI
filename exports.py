@@ -6,6 +6,7 @@ import numpy as np
 import os
         
 class Exports:
+    
     @staticmethod
     def export_video(id, export_type, num_frames, file_name, save_location = 'BASE'):
         if export_type not in ['axial', 'coronal', 'sagittal']:
@@ -15,7 +16,7 @@ class Exports:
         try:
             images_npy = np.load(r'database\{}_{}.npy'.format(export_type,id))
         except Exception:
-            raise FileNotFoundError('can\'t fint data/{}.npy!'.format(export_type))
+            raise FileNotFoundError('can\'t find data/{}.npy!'.format(export_type))
         images = []
         for i in images_npy:
             cv.imwrite(r'data/temp.jpg', i)

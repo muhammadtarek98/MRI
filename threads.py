@@ -70,12 +70,15 @@ class ExamineThread(QRunnable):
                         time=self.time)
         self.db.close()
         
-        
+
     def run(self):
         preprocessing(self.axial_images, self.coronal_images, self.sagittal_images)
-        self.examine_result_abnormal = Model(key = 'abnormal').get_prediction()
-        self.examine_result_acl = Model(key = 'acl').get_prediction()
-        self.examine_result_men = Model(key = 'men').get_prediction()
+        try:
+            self.examine_result_abnormal = Model(key = 'abnormal').get_prediction()
+            self.examine_result_acl = Model(key = 'acl').get_prediction()
+            self.examine_result_men = Model(key = 'men').get_prediction()
+        except Exception:
+            print("can't find models")
         
         self.get_data(self.examine_result_abnormal,
                       self.examine_result_acl,
@@ -83,8 +86,5 @@ class ExamineThread(QRunnable):
         
         self.save_to_database()
         self.db.close()
-        
-        # self.on_thread_finished()
         self.signals.finished.emit()
-        
         return

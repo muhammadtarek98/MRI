@@ -1,15 +1,18 @@
 import sqlite3 as sq
+import os
 class DB():
     def __init__(self):
         try:
             self.connection = sq.connect(r'database\database.db', check_same_thread=False)
+            self.cursor = self.connection.cursor()
         except Exception:
+            if not os.path.exists(r'database'):
+                os.mkdir('database')
             x = open(r'database\database.db', 'w')
             x.close()
             self.connection = sq.connect(r'database\database.db', check_same_thread=False)
-            # self.create_db()
-        finally:
             self.cursor = self.connection.cursor()
+            self.create_db()
             
         self.TABLE = 'states'
         self.C_ID = 'id'
@@ -39,7 +42,7 @@ class DB():
         	"{9}"	NUMERIC NOT NULL,
         	"{10}"	NUMERIC NOT NULL,
             "{11}"  TEXT,
-            "{12}"  TEXT
+            "{12}"  TEXT,
         );
         '''.format(self.TABLE, self.C_ID, self.C_NAME, self.C_AGE,
         self.C_BLOOD, self.C_AXIAL, self.C_CORONAL, self.C_SAGITTAL,
@@ -234,5 +237,3 @@ class DB():
             self.TABLE, self.C_TIME, engine, self.C_ID, limit)
         self.cursor.execute(target)
         return self.cursor.fetchall()
-    
-x = DB()

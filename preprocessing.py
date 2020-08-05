@@ -22,7 +22,6 @@ class preprocessing:
         for i in images:
             i = i.strip()
             i = i[1:-1]
-            print(i)
             temp = cv.imread(i)
             temp = self.denoise_image(temp)
             img = self.resize_image(temp)
